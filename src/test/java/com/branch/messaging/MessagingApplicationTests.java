@@ -8,6 +8,7 @@ class MessagingApplicationTests {
 
 	@Test
 	void contextLoads() {
+		System.out.println("Testing");
 	}
 
 }
