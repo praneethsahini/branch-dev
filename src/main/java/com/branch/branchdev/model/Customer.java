@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -18,8 +19,9 @@ import org.springframework.context.annotation.*;
 @Table(name="customer")
 public class Customer {
 
-	@Id @GeneratedValue
-	private int cid;
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long cid;
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -27,7 +29,7 @@ public class Customer {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date timestamp;
 	
-	public Customer(int cid, String firstName, String lastName, String address, Date timestamp) {
+	public Customer(long cid, String firstName, String lastName, String address, Date timestamp) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -44,10 +46,10 @@ public class Customer {
 	
 	
 	
-	public int getCid() {
+	public long getCid() {
 		return cid;
 	}
-	public void setCid(int cid) {
+	public void setCid(long cid) {
 		this.cid = cid;
 	}
 	public String getFirstName() {

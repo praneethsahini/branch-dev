@@ -13,56 +13,47 @@ import javax.persistence.TemporalType;
 
 
 @Entity
-@Table(name="message_base")
-public class MessageBase {
+@Table(name="agent_login_status")
+public class AgentLoginStatus {
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int mid;
+	private long aid;
 	
-	private int aid;
-	private int cid;
+	@Column(name = "login_status")
+	private boolean loginStatus;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date timestamp;
 
 	@Override
 	public String toString() {
-		return "MessageBase [mid=" + mid + ", aid=" + aid + ", cid=" + cid + ", timestamp=" + timestamp + "]";
+		return "AgentLoginStatus [aid=" + aid + ", loginStatus=" + loginStatus + ", timestamp=" + timestamp + "]";
 	}
 
-	public MessageBase(int mid, int aid, int cid, Date timestamp) {
+	public AgentLoginStatus(long aid, boolean loginStatus, Date timestamp) {
 		super();
-		this.mid = mid;
 		this.aid = aid;
-		this.cid = cid;
+		this.loginStatus = loginStatus;
 		this.timestamp = timestamp;
 	}
 
-	public MessageBase() {}
+	public AgentLoginStatus() {}
 
-	public int getMid() {
-		return mid;
-	}
-
-	public void setMid(int mid) {
-		this.mid = mid;
-	}
-
-	public int getAid() {
+	public long getAid() {
 		return aid;
 	}
 
-	public void setAid(int aid) {
+	public void setAid(long aid) {
 		this.aid = aid;
 	}
 
-	public int getCid() {
-		return cid;
+	public boolean isLoginStatus() {
+		return loginStatus;
 	}
 
-	public void setCid(int cid) {
-		this.cid = cid;
+	public void setLoginStatus(boolean loginStatus) {
+		this.loginStatus = loginStatus;
 	}
 
 	public Date getTimestamp() {
@@ -72,5 +63,8 @@ public class MessageBase {
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
-		
+
+	
+	
+
 }

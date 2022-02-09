@@ -7,3 +7,7 @@ INSERT INTO `branch`.`status` (`sid`, `status_message`) VALUES(4, "DEAD");
 
 INSERT INTO `branch`.`customer` (`first_name`, `last_name`, `address`) VALUES("Praneeth", "Sahini", "Vizag");
 INSERT INTO `branch`.`customer` (`first_name`, `last_name`, `address`) VALUES( "Sukanya", "Roy", "Bokaro");
+
+INSERT INTO `branch`.`agent_details` (`first_name`, `last_name`, `address`) VALUES( "Agent", "1", "addr1");
+INSERT INTO `branch`.`agent_details` (`first_name`, `last_name`, `address`) VALUES( "Agent", "2", "addr2");
+

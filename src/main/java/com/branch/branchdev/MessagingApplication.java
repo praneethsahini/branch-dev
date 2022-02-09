@@ -13,7 +13,8 @@ import com.branch.branchdev.query.CustomerRepository;
 
 
 @SpringBootApplication
-public class MessagingApplication implements CommandLineRunner{
+public class MessagingApplication {
+//public class MessagingApplication implements CommandLineRunner{
 	
 	
 //    @Autowired
@@ -26,22 +27,22 @@ public class MessagingApplication implements CommandLineRunner{
         SpringApplication.run(MessagingApplication.class, args);
     }
  
-    public void run(String... args) throws Exception {
-        String sql = "INSERT INTO branch.status (sid, status_message) VALUES (?, ?)";
-//        sql = "SELECT * FROM branch.status";
-        System.out.println(sql);
-        
-//        int result = jdbcTemplate.update(sql, 6, "from code");
-         
-//        System.out.println(result);
-//        if (result > 0) {
-//            System.out.println("A new row has been inserted.");
-//        }
-        
-        Iterable it = repository.listAllItems();
-        it.forEach(a->System.out.println(a));
-         
-    }
+//    public void run(String... args) throws Exception {
+//        String sql = "INSERT INTO branch.status (sid, status_message) VALUES (?, ?)";
+////        sql = "SELECT * FROM branch.status";
+//        System.out.println(sql);
+//        
+////        int result = jdbcTemplate.update(sql, 6, "from code");
+//         
+////        System.out.println(result);
+////        if (result > 0) {
+////            System.out.println("A new row has been inserted.");
+////        }
+//        
+//        Iterable it = repository.listAllItems();
+//        it.forEach(a->System.out.println(a));
+//         
+//    }
 
 }
 

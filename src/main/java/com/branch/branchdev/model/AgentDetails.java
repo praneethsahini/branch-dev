@@ -4,31 +4,36 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.springframework.data.annotation.CreatedDate;
 
 
 @Entity
 @Table(name="agent_details")
 public class AgentDetails {
 
-	@Id @GeneratedValue
-	private int aid;
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long aid;
 	private String firstName;
 	private String lastName;
 	private String address;
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@CreatedDate
 	private Date timestamp;
 	
-	public AgentDetails(int cid, String firstName, String lastName, String address, Date timestamp) {
+	public AgentDetails(String firstName, String lastName, String address) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
-		this.timestamp = timestamp;
+//		this.timestamp = timestamp;
 	}
 	public AgentDetails() {}
 	
@@ -40,10 +45,10 @@ public class AgentDetails {
 	
 	
 	
-	public int getAid() {
+	public long getAid() {
 		return aid;
 	}
-	public void setAid(int aid) {
+	public void setAid(long aid) {
 		this.aid = aid;
 	}
 	public String getFirstName() {

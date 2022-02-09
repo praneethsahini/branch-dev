@@ -12,11 +12,12 @@ import com.branch.branchdev.model.Customer;
 
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
-    
-//    public List<Customer> findByItem(int item);
      
     @Query("SELECT c FROM Customer c")
     public List<Customer> listAllItems();
     
-//    @Param("amount") float amount
+    @Query("SELECT c FROM Customer c where c.cid = :customerId")
+    public List<Customer> listItemsById(int customerId);
+    
+
 }

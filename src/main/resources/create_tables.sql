@@ -24,9 +24,21 @@ CREATE TABLE `branch`.`agent_stats` (
   CONSTRAINT `aid`
     FOREIGN KEY (`aid`)
     REFERENCES `branch`.`agent_details` (`aid`)
-    ON DELETE SET NULL
-    ON UPDATE NO ACTION);
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
   
+
+CREATE TABLE `branch`.`agent_login_status` (
+  `aid` INT NULL,
+  `login_status` TINYINT NULL,
+  `timestamp` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+   INDEX `aid` (`aid` ASC) VISIBLE,
+  CONSTRAINT `aid_idx_2`
+    FOREIGN KEY (`aid`)
+    REFERENCES `branch`.`agent_details` (`aid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
 
 CREATE TABLE `branch`.`message_base` (
   `mid` INT NOT NULL,
