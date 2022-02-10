@@ -41,7 +41,7 @@ CREATE TABLE `branch`.`agent_login_status` (
 
 
 CREATE TABLE `branch`.`message_base` (
-  `mid` INT NOT NULL,
+  `mid` INT NOT NULL AUTO_INCREMENT,
   `aid` INT NULL,
   `cid` INT NULL,
   `timestamp` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -61,10 +61,12 @@ CREATE TABLE `branch`.`message_base` (
 
 
 CREATE TABLE `branch`.`message_details` (
+  `mchat_id` INT NOT NULL AUTO_INCREMENT,
   `mid` INT NOT NULL,
   `message` VARCHAR(256) NULL,
+  `agent_cust` TINYINT NULL COMMENT 'True for agent, false for customer',
   `timestamp` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`mid`),
+  PRIMARY KEY (`mchat_id`),
   CONSTRAINT `mid_idx`
     FOREIGN KEY (`mid`)
     REFERENCES `branch`.`message_base` (`mid`)

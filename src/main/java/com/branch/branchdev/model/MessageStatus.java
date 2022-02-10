@@ -17,8 +17,9 @@ import javax.persistence.TemporalType;
 public class MessageStatus {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int mid;	
+	@Column(name = "mid", unique = true, nullable = false)
+	private long mid;	
+	
 	private int status;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -29,20 +30,20 @@ public class MessageStatus {
 		return "MessageStatus [mid=" + mid + ", status=" + status + ", timestamp=" + timestamp + "]";
 	}
 
-	public MessageStatus(int mid, int status, Date timestamp) {
+	public MessageStatus(long l, int status, Date timestamp) {
 		super();
-		this.mid = mid;
+		this.mid = l;
 		this.status = status;
 		this.timestamp = timestamp;
 	}
 
 	public MessageStatus() {}
 
-	public int getMid() {
+	public long getMid() {
 		return mid;
 	}
 
-	public void setMid(int mid) {
+	public void setMid(long mid) {
 		this.mid = mid;
 	}
 

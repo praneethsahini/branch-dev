@@ -18,10 +18,13 @@ public class MessageBase {
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int mid;
+	private long mid;
 	
-	private int aid;
-	private int cid;
+	@Column(name = "aid", nullable = false)
+	private long aid;
+	
+	@Column(name = "cid", unique = true, nullable = false)
+	private long cid;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date timestamp;
@@ -31,9 +34,9 @@ public class MessageBase {
 		return "MessageBase [mid=" + mid + ", aid=" + aid + ", cid=" + cid + ", timestamp=" + timestamp + "]";
 	}
 
-	public MessageBase(int mid, int aid, int cid, Date timestamp) {
+	public MessageBase(long aid, long cid, Date timestamp) {
 		super();
-		this.mid = mid;
+//		this.mid = mid;
 		this.aid = aid;
 		this.cid = cid;
 		this.timestamp = timestamp;
@@ -41,27 +44,27 @@ public class MessageBase {
 
 	public MessageBase() {}
 
-	public int getMid() {
+	public long getMid() {
 		return mid;
 	}
 
-	public void setMid(int mid) {
+	public void setMid(long mid) {
 		this.mid = mid;
 	}
 
-	public int getAid() {
+	public long getAid() {
 		return aid;
 	}
 
-	public void setAid(int aid) {
+	public void setAid(long aid) {
 		this.aid = aid;
 	}
 
-	public int getCid() {
+	public long getCid() {
 		return cid;
 	}
 
-	public void setCid(int cid) {
+	public void setCid(long cid) {
 		this.cid = cid;
 	}
 

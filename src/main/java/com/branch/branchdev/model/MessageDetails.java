@@ -18,7 +18,14 @@ public class MessageDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int mid;	
+	@Column(name = "mchat_id")
+	private long mchatId;
+	
+	@Column(name = "mid", unique = true, nullable = false)
+	private long mid;	
+	
+	@Column(name = "agent_cust")
+	private boolean agentCust;
 	private String message;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -26,24 +33,43 @@ public class MessageDetails {
 
 	@Override
 	public String toString() {
-		return "MessageDetails [mid=" + mid + ", message=" + message + ", timestamp=" + timestamp + "]";
+		return "MessageDetails [mchatId=" + mchatId + ", mid=" + mid + ", agentCust=" + agentCust + ", message="
+				+ message + ", timestamp=" + timestamp + "]";
 	}
 
-	public MessageDetails(int mid, String message, Date timestamp) {
+	public MessageDetails(long mid, boolean agentCust, String message, Date timestamp) {
 		super();
+//		this.mchatId = mchatId;
 		this.mid = mid;
+		this.agentCust = agentCust;
 		this.message = message;
 		this.timestamp = timestamp;
 	}
 
 	public MessageDetails() {}
 
-	public int getMid() {
+	public long getMchatId() {
+		return mchatId;
+	}
+
+	public void setMchatId(long mchatId) {
+		this.mchatId = mchatId;
+	}
+
+	public long getMid() {
 		return mid;
 	}
 
-	public void setMid(int mid) {
+	public void setMid(long mid) {
 		this.mid = mid;
+	}
+
+	public boolean isAgentCust() {
+		return agentCust;
+	}
+
+	public void setAgentCust(boolean agentCust) {
+		this.agentCust = agentCust;
 	}
 
 	public String getMessage() {
@@ -62,8 +88,5 @@ public class MessageDetails {
 		this.timestamp = timestamp;
 	}
 	
-	
-
-	
-		
+			
 }
