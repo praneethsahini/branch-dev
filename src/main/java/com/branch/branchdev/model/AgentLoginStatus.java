@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -15,9 +16,10 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="agent_login_status")
 public class AgentLoginStatus {
-
-	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+	
+	@Id
+	@Column(name = "aid", unique = true, nullable = false)
 	private long aid;
 	
 	@Column(name = "login_status")

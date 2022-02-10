@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.branch.branchdev.model.AgentLoginStatus;
 import com.branch.branchdev.query.AgentLoginStatusRepository;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class AgentLoginRoutes {
@@ -33,20 +35,32 @@ public class AgentLoginRoutes {
 	}
 	
 	@PostMapping("/agentlogin")
-	AgentLoginStatus newEmployee(@RequestBody AgentLoginStatus newAgentDetails) {
+	AgentLoginStatus newAgentLogin(@RequestBody Map<String, Object> payload) {
+
+		AgentLoginStatus newAgentDetails = new AgentLoginStatus(
+				Long.parseLong(payload.get("aid").toString()),
+				(boolean)payload.get("loginStatus"),
+				new Date(System.currentTimeMillis()));
+		System.out.println(newAgentDetails);
+		
 	    return agentService.save(newAgentDetails);
 	}
 	
 	
 	@DeleteMapping("/agentlogin/{id}")
-	void deleteEmployee(@PathVariable Long id) {
+	void deleteAgentLogin(@PathVariable Long id) {
 		agentService.deleteById(id);
 	  }
 	
 	
-	@PutMapping("/agentlogin/{id}")
-	AgentLoginStatus replaceEmployee(@RequestBody AgentLoginStatus agent, @PathVariable long id) {
-		return agentService.save(agent);
+	@PutMapping("/agentlogin")
+	AgentLoginStatus replaceAgentLogin(@RequestBody Map<String, Object> payload) {
+		AgentLoginStatus newAgentDetails = new AgentLoginStatus(
+				Long.parseLong(payload.get("aid").toString()), 
+				(boolean)payload.get("loginStatus"),
+				new Date(System.currentTimeMillis()));
+		System.out.println(newAgentDetails);
+		return agentService.save(newAgentDetails);
 	  }
 	
 }
