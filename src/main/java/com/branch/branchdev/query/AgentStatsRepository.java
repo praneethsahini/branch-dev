@@ -20,6 +20,6 @@ public interface AgentStatsRepository extends CrudRepository<AgentStats, Long> {
     public List<AgentStats> listAllItems();
     
     @Query("SELECT a FROM AgentStats a where aid = :agentId")
-    public List<AgentDetails> listItemsById(@PathVariable long agentId);
+    public List<AgentStats> listItemsById(@PathVariable long agentId);
 
 }

@@ -18,7 +18,7 @@ public class AgentStats {
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int aid;
+	private long aid;
 	private float rating;
 	
 	@Column(name = "max_num_customers")
@@ -33,7 +33,7 @@ public class AgentStats {
 				+ timestamp + "]";
 	}
 
-	public AgentStats(int aid, float rating, int maxNumCustomers, Date timestamp) {
+	public AgentStats(long aid, float rating, int maxNumCustomers, Date timestamp) {
 		super();
 		this.aid = aid;
 		this.rating = rating;
@@ -43,11 +43,11 @@ public class AgentStats {
 
 	public AgentStats() {}
 
-	public int getAid() {
+	public long getAid() {
 		return aid;
 	}
 
-	public void setAid(int aid) {
+	public void setAid(long aid) {
 		this.aid = aid;
 	}
 

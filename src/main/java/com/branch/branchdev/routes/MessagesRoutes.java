@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.branch.branchdev.model.AgentDetails;
 import com.branch.branchdev.model.AgentLoginStatus;
+import com.branch.branchdev.model.AgentStats;
 import com.branch.branchdev.model.MessageBase;
 import com.branch.branchdev.model.MessageDetails;
 import com.branch.branchdev.model.MessageStatus;
 import com.branch.branchdev.query.AgentDetailsRepository;
 import com.branch.branchdev.query.AgentLoginStatusRepository;
+import com.branch.branchdev.query.AgentStatsRepository;
 import com.branch.branchdev.query.MessageBaseRepository;
 import com.branch.branchdev.query.MessageDetailsRepository;
 import com.branch.branchdev.query.MessageStatusRepository;
@@ -24,9 +27,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.*;
 
 @RestController
 public class MessagesRoutes {
+	
+	private final static Logger logger = 
+            Logger.getLogger(MessagesRoutes.class.getName());
 
 	@Autowired
 	private MessageBaseRepository messageBaseService;
@@ -42,6 +49,10 @@ public class MessagesRoutes {
 	
 	@Autowired
 	private AgentDetailsRepository agentDetailsService;
+	
+	@Autowired
+	private AgentStatsRepository agentStatsService;
+	
 
 	// Map of agent ID to load
 	Map<Long, Long> aidLoad = new HashMap<>();
@@ -123,7 +134,6 @@ public class MessagesRoutes {
 		
 		// insert message base to give a unique ID for this message
 		MessageBase messageBase = new MessageBase(aid, cid, new Date(System.currentTimeMillis()));
-		System.out.println("messageBase : "+messageBase);
 		
 		System.out.println("aidLoad : "+aidLoad);
 		System.out.println("cidAssignedStatus : "+cidAssignedStatus);
@@ -141,14 +151,12 @@ public class MessagesRoutes {
 		// Save message status as ACTIVE or CREATED
 		MessageStatus messageStatus = new MessageStatus(mid, 
 				cidAssignedStatus.get(cid), new Date(System.currentTimeMillis()));
-		System.out.println("messageStatus : "+messageStatus );
 		messageStatusService.save(messageStatus);
 		
 		
 		// Insert actual message
 		MessageDetails messageDetails = new MessageDetails(mid, false,
 				messageText, new Date(System.currentTimeMillis()));
-		System.out.println("messageDetails : "+messageDetails );
 		messageDetailsService.save(messageDetails);
 		
 	    return m.get(0);
@@ -173,9 +181,6 @@ public class MessagesRoutes {
 		String messageText = payload.getOrDefault("message", "").toString();
 		boolean agentCust = (boolean)payload.get("agentCust");
 		
-		System.out.println("messageText : "+messageText );
-		System.out.println("agentCust : "+agentCust );
-		
 		MessageDetails messageDetails = new MessageDetails(mid, agentCust,
 				messageText, new Date(System.currentTimeMillis()));
 		
@@ -198,6 +203,11 @@ public class MessagesRoutes {
 	
 	private long assignAgent(long cid) {
 		
+		
+		// proportional to the rating
+		// inversely proportional to (current time - last message handled time)
+		// inversely proportional to the load
+		
 		if(cidAssignedStatus.containsKey(cid)) {
 			if(cidAssignedStatus.get(cid) == CREATED || cidAssignedStatus.get(cid) == DEAD) {
 				return assignNewAgent();
@@ -217,7 +227,6 @@ public class MessagesRoutes {
 		long aid = -1, lowestLoad = Integer.MAX_VALUE;
 		
 		for(AgentLoginStatus agent: agentLoginService.listAllAgents()) {
-			System.out.println("AGENT: "+ agent);
 			if(!agent.isLoginStatus()) {
 				continue;
 			}
@@ -234,6 +243,18 @@ public class MessagesRoutes {
 				aidLoad.put(aid, lowestLoad);
 			}
 		}
+		
+		List<AgentStats> agentstatsDetails = agentStatsService.listItemsById(aid);
+		if(agentstatsDetails.size()>0) {
+			int maxCust = agentstatsDetails.get(0).getMaxNumCustomers();
+			logger.info(aid+" -> "+maxCust+" : "+aidLoad);
+			System.out.println(aid+" -> "+maxCust+" : "+aidLoad);
+			if(aidLoad.get(aid) > maxCust) {
+				System.out.println("AGENT "+aid +" is overloaded. Reduce load to "+ maxCust +" from "+aidLoad.get(aid));
+				logger.info("AGENT "+aid +" is overloaded. Reduce load to "+ maxCust +" from "+aidLoad.get(aid));
+			}
+		}
+		
 		return aid;
 	}
 	
